@@ -754,8 +754,8 @@ def spatial_groupnorm_backward(dout, cache):
     dx_hat = (dout * gamma).reshape((N, G, C // G, H, W))
     dx = (1 / (norm_size * np.sqrt(group_var + eps))) * (norm_size * dx_hat - np.sum(dx_hat, axis=(2, 3, 4)).reshape((N, G, 1, 1, 1)) - x_hat * np.sum(dx_hat * x_hat, axis=(2, 3, 4)).reshape((N, G, 1, 1, 1)))
     dx = dx.reshape((N, C, H, W))
-    dgamma = np.sum(x_hat.reshape(dout.shape) * dout, axis=(0, 2, 3))
-    dbeta = np.sum(dout, axis=(0, 2, 3))
+    dgamma = np.sum(x_hat.reshape(dout.shape) * dout, axis=(0, 2, 3), keepdims=True)
+    dbeta = np.sum(dout, axis=(0, 2, 3), keepdims=True)
     ###########################################################################
     #                             END OF YOUR CODE                            #
     ###########################################################################
